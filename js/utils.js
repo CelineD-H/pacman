@@ -151,10 +151,9 @@ let inter2;
 let interJeu;
 
 function lancerJeu(grille) {
-   // if (!interJeu) {
-   //     interJeu = setInterval(jouer(grille), 1000);
-    //}
-    
+   if (!interJeu) {
+       interJeu = setInterval(() => jouer(grille), 1000);
+    }
 }
 
 export function changeColor() {
