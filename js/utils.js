@@ -40,14 +40,14 @@ export function getPacman() {
 
 
 export function jouer(grille) {
-    console.log("ça démarre");
+    //console.log("ça démarre");
     let pacman = grille.getPacmanGrille();
     let tableau = grille.getTab();
     let pacmancss = document.querySelector(".pacman");
     if(hasBonbon(grille, pacman)) {
         tableau[pacman.x][pacman.y] = 1;
     }
-    if(okDeplacerPacman()) {
+    if(okDeplacerPacman(pacman)) {
         tableau[pacman.x][pacman.y] = 1;
         switch (pacman.getDirection()) {
             case "right" : pacman.sety(pacman.gety() + 1);
@@ -70,11 +70,11 @@ export function jouer(grille) {
     afficherGrille(grille);
 }
 
-function okDeplacerPacman() {
+function okDeplacerPacman(pacman) {
     let grille = getGrille();
-    console.log(grille);
+    //console.log("deplacerPacman");
     let ok = false;
-    let pacman = grille.getPacmanGrille();
+    //let pacman = grille.getPacmanGrille();
     let x = pacman.getx();
     let y = pacman.gety();
     let tableau = grille.getTab();
@@ -90,6 +90,7 @@ function okDeplacerPacman() {
     if (tableau[x][y] != 0) {
         ok = true;
     }
+    //console.log(ok);
     return ok;
 }
 
@@ -257,10 +258,12 @@ function clearGrille() {
 export function moveUp() {
     let grille = getGrille();
     let pacman = grille.getPacmanGrille();
-    if(okDeplacerPacman()) {
+    let pacman2 = pacman;
+    pacman2.setDirection("up");
+    if(okDeplacerPacman(pacman2)) {
         pacman.setDirection("up");
         grille.setPacman(pacman);
-        console.log("up");
+        //console.log("up");
     }
 
 }
@@ -268,29 +271,35 @@ export function moveUp() {
 export function moveDown() {
     let grille = getGrille();
     let pacman = grille.getPacmanGrille();
-    if(okDeplacerPacman()) {
+    let pacman2 = pacman;
+    pacman2.setDirection("down");
+    if(okDeplacerPacman(pacman2)) {
         pacman.setDirection("down");
         grille.setPacman(pacman);
-        console.log("down");
+        //console.log("down");
     }
 }
 
 export function moveLeft() {
     let grille = getGrille();
     let pacman = grille.getPacmanGrille();
-    if(okDeplacerPacman()) {
+    let pacman2 = pacman;
+    pacman2.setDirection("left");
+    if(okDeplacerPacman(pacman2)) {
         pacman.setDirection("left");
         grille.setPacman(pacman);
-        console.log("down");
+        //console.log("left");
     }
 }
 
 export function moveRight() {
     let grille = getGrille();
     let pacman = grille.getPacmanGrille();
-    if(okDeplacerPacman()) {
+    let pacman2 = pacman;
+    pacman2.setDirection("right");
+    if(okDeplacerPacman(pacman2)) {
         pacman.setDirection("right");
         grille.setPacman(pacman);
-        console.log("down");
+        //console.log("right");
     }
 }
