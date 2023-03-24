@@ -4,6 +4,8 @@ import { Pacman } from "./classes/pacman.js";
 const btn = document.getElementById("btnAfficher");
 const flashOn = document.getElementById("btnFlashOn");
 const flashOff = document.getElementById("btnFlashOff");
+const ready = new Audio("css/sounds/sound_ready.mp3");
+const mangerBonbon = new Audio("css/sounds/sound_eat-fruit.mp3");
 export const tab = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0],
@@ -40,21 +42,27 @@ export function getPacman() {
 
 
 export function jouer(grille) {
-    //console.log("ça démarre");
     let pacman = grille.getPacmanGrille();
     let tableau = grille.getTab();
     let pacmancss = document.querySelector(".pacman");
-    if(hasBonbon(grille, pacman)) {
-        tableau[pacman.x][pacman.y] = 1;
-    }
     if(okDeplacerPacman(pacman)) {
-        tableau[pacman.x][pacman.y] = 1;
+        tableau[pacman.getx()][pacman.gety()] = 1;
         switch (pacman.getDirection()) {
-            case "right" : pacman.sety(pacman.gety() + 1);
-            pacmancss.style.transform = "rotate(0deg)";
+            case "right" : if (pacman.gety() == 18) {
+                pacman.sety(0);
+                pacmancss.style.transform = "rotate(0deg)";
+            } else {
+                pacman.sety(pacman.gety() + 1);
+                pacmancss.style.transform = "rotate(0deg)";
+            }
             break;
-            case "left" : pacman.sety(pacman.gety() - 1);
-            pacmancss.style.transform = "rotate(180deg)";
+            case "left" : if (pacman.gety() == 0) {
+                pacman.sety(18);
+                pacmancss.style.transform = "rotate(180deg)";
+            } else {
+                pacman.sety(pacman.gety() - 1);
+                pacmancss.style.transform = "rotate(180deg)";
+            }
             break;
             case "up" : pacman.setx(pacman.getx() - 1);
             pacmancss.style.transform = "rotate(270deg)";
@@ -72,9 +80,7 @@ export function jouer(grille) {
 
 function okDeplacerPacman(pacman) {
     let grille = getGrille();
-    //console.log("deplacerPacman");
     let ok = false;
-    //let pacman = grille.getPacmanGrille();
     let x = pacman.getx();
     let y = pacman.gety();
     let tableau = grille.getTab();
@@ -89,20 +95,27 @@ function okDeplacerPacman(pacman) {
     }
     if (tableau[x][y] != 0) {
         ok = true;
+        if (tableau[x][y] == 2) {
+            mangerBonbon.play();
+        }
     }
-    //console.log(ok);
     return ok;
 }
 
-function hasBonbon(grille, pacman) {
+/*function hasBonbon(grille, pacman) {
+    console.log("entrée dans hasbonbon")
     let ok = false;
     let tableau = grille.getTab();
-    let elem = tableau[pacman.x][pacman.y];
+    let elem = tableau[pacman.getx()][pacman.gety()];
+    console.log(elem);
     if (elem == 2) { 
         ok = true;
+        console.log("devrait jouer musique");
+        mangerBonbon.play();
     }
+    console.log(ok);
     return ok;
-}
+} */
 
 function afficherGrille(grille) {
     let tableau = grille.getTab();
@@ -128,6 +141,7 @@ export function initGrille() {
     }
     btn.style.display = "none";
     flashOn.style.display ="inline";
+    ready.play();
     lancerJeu(grille);
 }
 
@@ -263,7 +277,6 @@ export function moveUp() {
     if(okDeplacerPacman(pacman2)) {
         pacman.setDirection("up");
         grille.setPacman(pacman);
-        //console.log("up");
     }
 
 }
@@ -276,7 +289,6 @@ export function moveDown() {
     if(okDeplacerPacman(pacman2)) {
         pacman.setDirection("down");
         grille.setPacman(pacman);
-        //console.log("down");
     }
 }
 
@@ -288,7 +300,6 @@ export function moveLeft() {
     if(okDeplacerPacman(pacman2)) {
         pacman.setDirection("left");
         grille.setPacman(pacman);
-        //console.log("left");
     }
 }
 
@@ -300,6 +311,5 @@ export function moveRight() {
     if(okDeplacerPacman(pacman2)) {
         pacman.setDirection("right");
         grille.setPacman(pacman);
-        //console.log("right");
     }
 }
