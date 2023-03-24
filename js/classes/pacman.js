@@ -2,12 +2,15 @@ export class Pacman {
     x;
     y;
     direction;
+    pseudo;
+    score;
     static instance = null;
     
     constructor() {
         this.x = 10;
         this.y = 9;
         this.direction = "up";
+        this.score = 0;
         Pacman.instance = this;
     }
 
@@ -39,5 +42,13 @@ export class Pacman {
 
     setDirection(dir) {
         this.direction = dir;
+    }
+
+    addPoint() {
+        this.score += 1;
+    }
+
+    getScore() {
+        return this.score;
     }
 }

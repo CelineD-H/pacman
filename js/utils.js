@@ -97,6 +97,8 @@ function okDeplacerPacman(pacman) {
         ok = true;
         if (tableau[x][y] == 2) {
             mangerBonbon.play();
+            pacman.addPoint();
+            afficherScore(pacman);
         }
     }
     return ok;
@@ -124,6 +126,19 @@ function afficherGrille(grille) {
             createElem(tableau[i][j]);
         }
     }
+}
+
+function afficherScore(pacman) {
+    clearScore();
+    let monElem = document.createElement('h2');
+    monElem.classList.add("score");
+    monElem.innerText = pacman.getScore();
+    document.getElementById("stats").appendChild(monElem);
+}
+
+function clearScore() {
+    let score = document.querySelector("h2.score");
+    score.remove();
 }
 
 
